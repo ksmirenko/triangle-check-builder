@@ -1,0 +1,11 @@
+**/packages
+**/bin
+**/obj
+**/build
+**/test
+!**/src/Test
+Debug
+*.suo
+*.userprefs
+*~
+**/NuGet.exe
