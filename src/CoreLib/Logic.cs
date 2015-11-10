@@ -1,22 +1,25 @@
 ﻿using System;
 
-namespace Core {
+namespace CoreLib {
     public class TriangleCheck {
+        private const double Tolerance = 1e-9;
         private const int IntersectTrue = 1;
         private const int IntersectFalse = -1;
         private const int IntersectVertex = 0;
-        private const double Tolerance = 1e-9;
+
 
         public static PointLocation CalcPointLocation(Point a, Point b, Point c,
             Point p) {
-            var sides = new Line[3] {
+            var sides = new[] {
                 Line.FromPoints(a, b), Line.FromPoints(b, c),
                 Line.FromPoints(c, a)
             };
+            if (p.Equals(a) || p.Equals(b) || p.Equals(c))
+                return PointLocation.OnVertex;
             if (CheckPointOnSegment(p, sides[0]) ||
                 CheckPointOnSegment(p, sides[1]) ||
                 CheckPointOnSegment(p, sides[2])) return PointLocation.OnBorder;
-            var vectors = new Point[4] {
+            var vectors = new[] {
                 new Point(1f, 0f), new Point(0f, 1f), new Point(-1f, 0f),
                 new Point(0f, -1f)
             };
@@ -43,8 +46,17 @@ namespace Core {
         }
 
         private static bool CheckPointOnSegment(Point point, Line segment) {
-            return (point.X - segment.Start.X) / segment.Vector.X -
-                   (point.Y - segment.Start.Y) / segment.Vector.Y < Tolerance;
+            var dx = point.X - segment.Start.X;
+            var dy = point.Y - segment.Start.Y;
+            var tx = dx / segment.Vector.X;
+            var ty = dy / segment.Vector.Y;
+            if (Math.Abs(segment.Vector.X) < Tolerance) {
+                return (Math.Abs(dx) < Tolerance) && (ty > 0) && (ty < 1);
+            }
+            if (Math.Abs(segment.Vector.Y) < Tolerance) {
+                return (Math.Abs(dy) < Tolerance) && (tx > 0) && (tx < 1);
+            }
+            return (Math.Abs(tx - ty) < Tolerance) && (tx > 0) && (tx < 1);
         }
 
         private static int CheckRaySegmentIntersection(Line ray, Line segment) {
@@ -63,7 +75,7 @@ namespace Core {
             if (s > 0.0 && s < 1.0) {
                 return IntersectTrue;
             }
-            if (Math.Abs(s) < Tolerance || Math.Abs(s) - 1.0 < Tolerance) {
+            if (Math.Abs(s) < Tolerance || Math.Abs(s - 1.0) < Tolerance) {
                 return IntersectVertex;
             }
             return IntersectFalse;
