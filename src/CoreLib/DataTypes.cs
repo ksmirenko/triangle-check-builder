@@ -12,8 +12,8 @@
             Y = y;
         }
 
-        public double X { get; }
-        public double Y { get; }
+        public double X { get; set; }
+        public double Y { get; set; }
 
         public override bool Equals(object obj) {
             if (!(obj is Point)) return false;
