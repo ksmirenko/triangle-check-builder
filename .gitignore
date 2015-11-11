@@ -9,3 +9,5 @@ Debug
 *.userprefs
 *~
 **/NuGet.exe
+log.txt
+mailsend.exe
