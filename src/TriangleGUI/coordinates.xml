@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+
+<!-- Coordinates.xml stores coordinates of triangle vertices and a point -->
+<coordinates>
+
+  <point>
+    <x>300</x>
+    <y>300</y>
+  </point>
+
+  <triangle>
+    <first-vertex>
+      <x>50</x>
+      <y>300</y>
+    </first-vertex>
+    <second-vertex>
+      <x>400</x>
+      <y>80</y>
+    </second-vertex>
+    <third-vertex>
+      <x>450</x>
+      <y>400</y>
+    </third-vertex>
+  </triangle>
+
+</coordinates>
