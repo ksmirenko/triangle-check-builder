@@ -11,3 +11,5 @@ Debug
 **/NuGet.exe
 log.txt
 mailsend.exe
+TestResult.xml
+out/
