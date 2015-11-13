@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace TriangleGUI
 {
@@ -22,7 +21,7 @@ namespace TriangleGUI
         private const int labelHeight = 40;
         private string pointLocation = "";
 
-        private Triangle triangle = new Triangle(new Point(0, 0), new Point (0, 0), new Point(0, 0));
+        private Triangle triangle = new Triangle(new Point(0, 0), new Point(0, 0), new Point(0, 0));
         private Point point = new Point(0, 0);
 
         private void setCoordinates()
@@ -57,7 +56,7 @@ namespace TriangleGUI
         //scales coordinates of points so that they fit the picture
         private void scaleCoordinates()
         {
-            var minX = System.Math.Min(System.Math.Min(triangle.vertices[0].X, triangle.vertices[1].X), 
+            var minX = System.Math.Min(System.Math.Min(triangle.vertices[0].X, triangle.vertices[1].X),
                 System.Math.Min(triangle.vertices[2].X, point.X));
             if (minX < 0)
             {
@@ -115,7 +114,7 @@ namespace TriangleGUI
             g.DrawLine(pen, triangle.vertices[2].X, triangle.vertices[2].Y,
                 triangle.vertices[0].X, triangle.vertices[0].Y);
             pen.Dispose();
-        
+
             SolidBrush brush = new SolidBrush(Color.Blue);
             g.FillEllipse(brush, new Rectangle(point.X, point.Y, 8, 8));
             brush.Dispose();
