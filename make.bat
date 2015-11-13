@@ -18,6 +18,11 @@ if not exist packages call getNuget.bat
 
 echo Updating source code...
 git.exe pull --progress -v "https://github.com/ksmirenko/triangle-check" >> log.txt 2>&1
+if ERRORLEVEL 1 (
+   set error=Cannot_clone_git
+   echo Could not clone git repo! Sending email...
+   sendEmail.bat
+)
 
 call build.bat
 call test.bat
