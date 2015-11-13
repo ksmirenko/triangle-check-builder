@@ -1,3 +1,4 @@
+if "%main%"=="" goto :EOF
 @echo off
 
 if exist "NuGet.exe" goto :packagesRestore

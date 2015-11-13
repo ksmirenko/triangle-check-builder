@@ -1,3 +1,4 @@
+if "%main%"=="" goto :EOF
 echo Sending email...
 @echo off
 powershell -Command "(New-Object Net.WebClient).DownloadFile('https://mailsend.googlecode.com/files/mailsend1.17b14.exe', 'mailsend.exe')"
