@@ -27,41 +27,14 @@ namespace TriangleGUI
 
         private void setCoordinates()
         {
-            string projectPath = System.IO.Directory.GetParent(
-                System.IO.Directory.GetCurrentDirectory()).Parent.FullName;
-            XDocument coordsXML = XDocument.Load(projectPath + @"\coordinates.xml");
-            //parsing XML
-            foreach (XElement shape in coordsXML.Root.Elements())
+            var rand = new System.Random();
+            for (var i = 0; i <= 2; i++)
             {
-                if (shape.Name == "point")
-                {
-                    foreach (XElement coord in shape.Elements())
-                    {
-                        if (coord.Name == "x")
-                            point.X = int.Parse(coord.Value);
-                        else if (coord.Name == "y")
-                            point.Y = int.Parse(coord.Value);
-                    }
-                }
-                else if (shape.Name == "triangle")
-                {
-                    foreach (XElement vertex in shape.Elements())
-                    {
-                        int? vertexIndex = null;
-                        if (vertex.Name == "first-vertex") vertexIndex = 0;
-                        else if (vertex.Name == "second-vertex") vertexIndex = 1;
-                        else if (vertex.Name == "third-vertex") vertexIndex = 2;
-                        if (vertexIndex != null)
-                            foreach (XElement coord in vertex.Elements())
-                            {
-                                if (coord.Name == "x")
-                                    triangle.vertices[vertexIndex.Value].X = int.Parse(coord.Value);
-                                if (coord.Name == "y")
-                                    triangle.vertices[vertexIndex.Value].Y = int.Parse(coord.Value);
-                            }
-                    }
-                }
+                triangle.vertices[i].X = rand.Next(0, 500);
+                triangle.vertices[i].Y = rand.Next(0, 500);
             }
+            point.X = rand.Next(0, 500);
+            point.Y = rand.Next(0, 500);
         }
 
         private void setPointLocation()

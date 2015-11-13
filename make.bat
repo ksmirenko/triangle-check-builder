@@ -27,6 +27,7 @@ git.exe pull --progress -v "https://github.com/ksmirenko/triangle-check" >> log.
 mkdir out
 echo Building solution...
 msbuild "%cd%\TriangleCheck.sln" /p:Configuration=Release /p:OutDir=..\..\out /p:TargetFramework=v4.5.1 >> log.txt 2>&1
+msbuild "%cd%\TriangleGUI.sln" /p:Configuration=Release /p:OutDir=..\..\out /p:TargetFramework=v4.5.1 /p:ToolsDllPath=%cd%\out\CoreLib.dll >> log.txt 2>&1
 echo Checking build...
 for /f %%i in (%cd%\expectedFiles.txt) do (
     if not exist "%cd%\out\%%i" echo %%i haven't been created! >> log.txt 2>&1
