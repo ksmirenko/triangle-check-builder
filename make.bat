@@ -1,6 +1,7 @@
 @echo off
 
 set main=true
+del missingFiles.txt
 
 if exist ".git" goto :repositoryExists
 rem Git doesn't allow to clone into non-empty directoty
@@ -14,7 +15,7 @@ echo A current build exists.
 set /p delBuild=Do you want to overwrite it [n if not, anything otherwise]?: 
 if %delBuild% == n goto :EOF
 rmdir /s /q out
-rm log.txt
+del log.txt
 
 :checkPackages
 if exist packages goto :update
@@ -32,7 +33,7 @@ msbuild "%cd%\TriangleCheck.sln" /p:Configuration=Release /p:OutDir=..\..\out /p
 msbuild "%cd%\TriangleGUI.sln" /p:Configuration=Release /p:OutDir=..\..\out /p:TargetFramework=v4.5.1 /p:ToolsDllPath=%cd%\out\CoreLib.dll >> log.txt 2>&1
 echo Checking build...
 for /f %%i in (%cd%\expectedFiles.txt) do (
-    if not exist "%cd%\out\%%i" echo %%i haven't been created! >> log.txt 2>&1
+    if not exist "%cd%\out\%%i" echo %%i haven't been created!; >> missingFiles.txt 2>&1
     )
 
 :test
