@@ -6,6 +6,10 @@ del missingFiles.txt
 if exist ".git" goto :repositoryExists
 rem Git doesn't allow to clone into non-empty directoty
 git.exe clone --progress -v "https://github.com/ksmirenko/triangle-check" %cd%\temp > log.txt 2>&1
+if ERRORLEVEL 1 (
+	set error=Cannot_clone_git
+	goto :sendEmail
+)
 xcopy /e /q /h /y %cd%\temp %cd%
 goto :build
 
@@ -30,15 +34,27 @@ git.exe pull --progress -v "https://github.com/ksmirenko/triangle-check" >> log.
 mkdir out
 echo Building solution...
 msbuild "%cd%\TriangleCheck.sln" /p:Configuration=Release /p:OutDir=..\..\out /p:TargetFramework=v4.5.1 >> log.txt 2>&1
+if ERRORLEVEL 1 (
+	set error=Build_failure
+	goto :sendEmail
+)
 msbuild "%cd%\TriangleGUI.sln" /p:Configuration=Release /p:OutDir=..\..\out /p:TargetFramework=v4.5.1 /p:ToolsDllPath=%cd%\out\CoreLib.dll >> log.txt 2>&1
+if ERRORLEVEL 1 (
+ 	set error=Build_failure
+	goto :sendEmail
+)
 echo Checking build...
 for /f %%i in (%cd%\expectedFiles.txt) do (
     if not exist "%cd%\out\%%i" echo %%i haven't been created!; >> missingFiles.txt 2>&1
-    )
+)
 
 :test
 echo Testing...
 "%cd%\packages\NUnit.Runners.2.6.4\tools\nunit-console" "%cd%\out\Test.dll" >> log.txt 2>&1
+if ERRORLEVEL 1 (
+	set error=Test_failure
+	goto :sendEmail
+)
 
 :sendEmail
 call sendEmail.bat
