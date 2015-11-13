@@ -43,10 +43,6 @@ if ERRORLEVEL 1 (
  	set error=Build_failure
 	goto :sendEmail
 )
-echo Checking build...
-for /f %%i in (%cd%\expectedFiles.txt) do (
-    if not exist "%cd%\out\%%i" echo %%i haven't been created!; >> missingFiles.txt 2>&1
-)
 
 :test
 echo Testing...
@@ -54,6 +50,11 @@ echo Testing...
 if ERRORLEVEL 1 (
 	set error=Test_failure
 	goto :sendEmail
+)
+
+echo Checking build...
+for /f %%i in (%cd%\expectedFiles.txt) do (
+    if not exist "%cd%\out\%%i" echo %%i haven't been created!; >> missingFiles.txt 2>&1
 )
 
 :sendEmail
