@@ -13,3 +13,4 @@ log.txt
 mailsend.exe
 TestResult.xml
 out/
+!build-tools/
