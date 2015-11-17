@@ -1,0 +1,15 @@
+**/packages
+**/bin
+**/obj
+**/build
+**/test
+**/src/Test
+Debug
+*.sln
+*.suo
+*.userprefs
+*~
+log.txt
+TestResult.xml
+out/
+src/
