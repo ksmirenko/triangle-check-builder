@@ -153,6 +153,7 @@ namespace TriangleGUI
             gui.scaleCoordinates();
             gui.setPointLocation();
             var mainForm = gui.getMainForm();
+            mainForm.MaximizeBox = false; 
             mainForm.ShowDialog();
         }
     }
